@@ -2,9 +2,12 @@
 // Script by ryi3r (@ryi3r in Gamejolt)
 // Works on UTY 1.1
 
+using UndertaleModLib.Util;
 using UndertaleModLib.Models;
 
 EnsureDataLoaded();
+
+UndertaleModLib.Compiler.CodeImportGroup importGroup = new(Data);
 
 public UndertaleGameObject.EventAction NewEventAction()
 {
@@ -38,14 +41,14 @@ public void ReplaceCode()
         "gml_Object_obj_flowey_battle_screen_glitch_fight_Alarm_0"
     };
     foreach (var e in str) {
-        ImportGMLString(e, @"
+        importGroup.QueueReplace(e, @"
 if live_call()
     return global.live_result;
 obj_border.draw_surf = true; //application_surface_draw_enable(true);
 instance_destroy();
         ");
     }
-    ImportGMLString("gml_Object_obj_darkruins_01_rope_Alarm_1", @"
+    importGroup.QueueReplace("gml_Object_obj_darkruins_01_rope_Alarm_1", @"
 scr_cutscene_end();
 obj_pl.image_alpha = 1;
 game_restart();
@@ -53,7 +56,7 @@ instance_create(0, 0, obj_darkruins_01_resettext);
 scr_initialize();
 obj_border.draw_surf = true; //application_surface_draw_enable(true);
     ");
-    ImportGMLString("gml_Object_obj_screen_shatter_effect_Create_0", @"
+    importGroup.QueueReplace("gml_Object_obj_screen_shatter_effect_Create_0", @"
 surf_screen_copy = surface_create(surface_get_width(application_surface), surface_get_height(application_surface));
 surf_screen_noloop = false;
 h_number = 10;
@@ -83,11 +86,11 @@ for (var i = 0; i < total_number; i++)
 piece_grav = 0.5;
 audio_play_sound(snd_glass_smashable_large_break, 1, 0);
     ");
-    ImportGMLString("gml_Object_obj_screen_shatter_effect_Destroy_0", @"
+    importGroup.QueueReplace("gml_Object_obj_screen_shatter_effect_Destroy_0", @"
 surface_free(surf_screen_copy);
 obj_border.draw_surf = true; //application_surface_draw_enable(true)
 ");
-    ImportGMLString("gml_Object_obj_flowey_battle_screen_glitch_wheel_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flowey_battle_screen_glitch_wheel_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1);
@@ -105,7 +108,7 @@ for (var i = 0; i < screen_parts; i++)
 surface_reset_target();
 //display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_screenshake_player_Step_0", @"
+    importGroup.QueueReplace("gml_Object_obj_screenshake_player_Step_0", @"
 var camera_height = camera_get_view_height(view_camera[0]);
 var camera_width = camera_get_view_width(view_camera[0]);
 var x_target = clamp(view_object_original.x - floor(camera_width / 2), 0, room_width);
@@ -113,7 +116,7 @@ var y_target = clamp(view_object_original.y - floor(camera_height / 2), 0, room_
 camera_set_view_target(view_camera[0], -4);
 camera_set_view_pos(view_camera[0], x_target + irandom_range(-intensity, intensity), y_target + irandom_range(-intensity, intensity));
     ");
-    ImportGMLString("gml_Object_obj_flowey_battle_screen_glitch_ending_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flowey_battle_screen_glitch_ending_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1)
@@ -141,7 +144,7 @@ draw_set_alpha(noise_alpha);
 draw_sprite_tiled(spr_flowey_battle_noise, 0, 0, 0);
 draw_set_alpha(1);
     ");
-    ImportGMLString("gml_Object_obj_flowey_battle_screen_glitch_attack_switch_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flowey_battle_screen_glitch_attack_switch_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1);
@@ -160,7 +163,7 @@ for (var i = 0; i < screen_parts; i++)
 surface_reset_target();
 //display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_flowey_battle_screen_glitch_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flowey_battle_screen_glitch_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1);
@@ -178,7 +181,7 @@ for (var i = 0; i < screen_parts; i++)
 surface_reset_target();
 //display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_flashback_transition_glitch_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flashback_transition_glitch_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1);
@@ -196,7 +199,7 @@ for (var i = 0; i < screen_parts; i++)
 surface_reset_target();
 //display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_darkruins_01_rope_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_darkruins_01_rope_Draw_64", @"
 if (waiter == 4)
 {
     //display_set_gui_size(-1, -1);
@@ -211,7 +214,7 @@ if (waiter == 4)
     //display_set_gui_size(320, 240);
 }
     ");
-    ImportGMLString("gml_Object_obj_screen_shatter_effect_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_screen_shatter_effect_Draw_64", @"
 if (live_call())
     return global.live_result;
 
@@ -256,7 +259,7 @@ for (var i = 0; i < total_number; i++)
 
 surface_reset_target();
     ");
-    ImportGMLString("gml_Object_obj_flowey_battle_screen_glitch_fight_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_flowey_battle_screen_glitch_fight_Draw_64", @"
 if live_call()
     return global.live_result;
 //display_set_gui_size(-1, -1);
@@ -274,7 +277,7 @@ for (var i = 0; i < screen_parts; i++)
 surface_reset_target();
 //display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_robot_build_item_Draw_75", @"
+    importGroup.QueueReplace("gml_Object_obj_robot_build_item_Draw_75", @"
 draw_set_alpha(obj_robot_build_controller.draw_alpha);
 image_xscale /= 2;
 image_yscale /= 2;
@@ -287,7 +290,7 @@ image_xscale *= 2;
 image_yscale *= 2;
 draw_set_alpha(1);
     ");
-    ImportGMLString("gml_Object_obj_robot_build_cursor_Draw_75", @"
+    importGroup.QueueReplace("gml_Object_obj_robot_build_cursor_Draw_75", @"
 if instance_exists(obj_border)
     display_set_gui_maximise((obj_border.SF * obj_border.SRF) / 2, (obj_border.SF * obj_border.SRF) / 2, obj_border.pos_x, obj_border.pos_y);
 else
@@ -298,7 +301,7 @@ if instance_exists(obj_border)
 else
     display_set_gui_size(320, 240);
     ");
-    ImportGMLString("gml_Object_obj_robot_build_controller_Draw_64", @"
+    importGroup.QueueReplace("gml_Object_obj_robot_build_controller_Draw_64", @"
 if (instance_exists(obj_border))
     display_set_gui_maximise((obj_border.SF * obj_border.SRF) / 2, (obj_border.SF * obj_border.SRF) / 2, obj_border.pos_x, obj_border.pos_y);
 else
@@ -340,7 +343,7 @@ if (!global.dialogue_open)
     draw_rectangle(dbox_xx, dbox_yy, dbox_width, dbox_height, 0);
     draw_set_color(c_white);
     draw_set_font(fnt_main_battle);
-    draw_text(80, 330, string_hash_to_newline(string(global.action_key) + " - Seleccionar/Colocar#" + string(global.pause_key) + " - Cancelar Selección#" + string(global.cancel_key) + " - Rotar/Agrandar"));
+    draw_text(80, 330, string_hash_to_newline(string(global.action_key) + "" - Seleccionar/Colocar#"" + string(global.pause_key) + "" - Cancelar Selección#"" + string(global.cancel_key) + "" - Rotar/Agrandar""));
     var butt1_xx = 500;
     var butt1_yy = 320;
     var butt1_width = butt1_xx + 80;
@@ -356,7 +359,7 @@ if (!global.dialogue_open)
     draw_rectangle(butt1_xx, butt1_yy, butt1_width, butt1_height, 0);
     draw_set_font(fnt_mainb);
     draw_set_color(butt1_color);
-    draw_text(butt1_xx + 10, butt1_yy + 7, string_hash_to_newline("ELIM"));
+    draw_text(butt1_xx + 10, butt1_yy + 7, string_hash_to_newline(""ELIM""));
     var butt2_xx = 500;
     var butt2_yy = 398;
     var butt2_width = butt2_xx + 80;
@@ -372,7 +375,7 @@ if (!global.dialogue_open)
     draw_rectangle(butt2_xx, butt2_yy, butt2_width, butt2_height, 0);
     draw_set_font(fnt_mainb);
     draw_set_color(butt2_color);
-    draw_text(butt2_xx + 10, butt2_yy + 7, string_hash_to_newline("YA"));
+    draw_text(butt2_xx + 10, butt2_yy + 7, string_hash_to_newline(""YA""));
 }
 
 var robot_item_number = instance_number(obj_robot_build_item);
@@ -383,7 +386,7 @@ if (robot_item_number >= item_number_max)
 
 draw_set_font(fnt_mainb);
 draw_set_halign(fa_center);
-draw_text(320, 280, string_hash_to_newline(string(robot_item_number) + " / " + string(item_number_max)));
+draw_text(320, 280, string_hash_to_newline(string(robot_item_number) + "" / "" + string(item_number_max)));
 draw_set_halign(fa_left);
 draw_set_color(c_white);
 draw_sprite_ext(robot_item[0], 0, 415, 85, robot_item_scale[0], robot_item_scale[0], 0, c_white, draw_alpha);
@@ -397,11 +400,12 @@ if (instance_exists(obj_border))
 else
     display_set_gui_size(320, 240);
     ");
+    importGroup.Import();
 }
 
 public void AddCode()
 {
-    ImportGMLString("gml_Object_obj_border_Create_0", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Create_0", @"
 ini_open(@'Controls.sav');
 enabled = ini_read_real(@'Border', @'enabled', false);
 ini_close();
@@ -455,15 +459,15 @@ sprite_prefetch_multi([
     spr_border_casino,
 ]); // preload all borders so that there's no lag spikes, tho this requires 1.5gb of free ram at most
     ");
-    ImportGMLString("gml_Object_obj_border_CleanUp_0", @"
+    importGroup.QueueReplace("gml_Object_obj_border_CleanUp_0", @"
 if surface_exists(surf) && surf != application_surface {
     surface_free(surf);
 }
     ");
-    ImportGMLString("gml_Object_obj_border_Other_4", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Other_4", @"
 event_user(0);
     ");
-    ImportGMLString("gml_Object_obj_border_Step_0", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Step_0", @"
 SW = (window_get_fullscreen() ? display_get_width() : window_get_width());
 SH = (window_get_fullscreen() ? display_get_height() : window_get_height());
 SX = (enabled ? (SW / 960) : (SW / 640));
@@ -498,7 +502,7 @@ if trigger_change {
     window_center();
 }
     ");
-    ImportGMLString("gml_Object_obj_border_Draw_77", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Draw_77", @"
 if surf == application_surface || !surface_exists(surf) { // Just accounting for some GameMaker shanenigans! :P
     surf = surface_create(256, 256);
 }
@@ -529,7 +533,7 @@ surface_set_target(surf);
 draw_clear_alpha(c_black, 0);
 surface_reset_target();
     ");
-    ImportGMLString("gml_Object_obj_border_Draw_75", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Draw_75", @"
 display_set_gui_maximise(SF * SRF, SF * SRF, (SW - ((sprite_get_width(spr_border_empty) * ((1 / 2) / SRF)) * (SF * SRF))) / 2, (SH - ((sprite_get_height(spr_border_empty) * ((1 / 2) / SRF)) * (SF * SRF))) / 2); // Hacky solution, but it works! :D
 var __x = 0;
 var __y = 0;
@@ -578,7 +582,7 @@ if enabled {
     draw_set_alpha(draw_alpha);
 }
     ");
-    ImportGMLString("gml_Object_obj_border_Other_10", @"
+    importGroup.QueueReplace("gml_Object_obj_border_Other_10", @"
 var rn = room_get_name(room);
 var nsprite = noone;
 var set_no_border = false;
@@ -748,11 +752,12 @@ if (sprite_exists(nsprite) && nsprite != sprite) || set_no_border {
     animation_current_frame = 0;
 }
     ");
+    importGroup.Import();
 }
 
 public void AddCodeObj(string objName, uint eventSubtype, string codeName, string stringCode)
 {
-    ImportGMLString(codeName, stringCode);
+    importGroup.QueueReplace(codeName, stringCode);
     var obj = Data.GameObjects.ByName(objName);
     bool doAdd = true;
     foreach (var evp in obj.Events)
@@ -799,7 +804,7 @@ void AssignBorderBackground(string name, string texName, ushort x, ushort y, ush
     var path = bordersPath + texName;
     UndertaleEmbeddedTexture tex = new();
     tex.Name = new UndertaleString("Texture " + ++lastTextPage);
-    tex.TextureData.TextureBlob = File.ReadAllBytes(path);
+    tex.TextureData.Image = GMImage.FromPng(File.ReadAllBytes(path));
     Data.EmbeddedTextures.Add(tex);
 
     var spr = new UndertaleSprite();
@@ -941,18 +946,18 @@ if (addObj)
     r.Add(objEvent);
     obj.Events.Add(r);
 
-    ReplaceTextInGML("gml_Object_obj_arcade_mew_Alarm_1", @"instance_deactivate_all(true)", @"instance_deactivate_all(true); instance_activate_object(obj_border)", true);
-    ReplaceTextInGML("gml_Object_obj_arcade_boss_Step_0", @"instance_deactivate_all(true)", @"instance_deactivate_all(true); instance_activate_object(obj_border)", true);
-    Data.Code.ByName("gml_Object_obj_controller_Create_0").AppendGML(@"layer_force_draw_depth(true, -15998); instance_create_depth(0, 0, -15998, obj_border);", Data);
-    Data.Code.ByName("gml_Object_obj_config_Create_0").AppendGML(@"position_max += 1;", Data);
-    Data.Code.ByName("gml_Object_obj_config_Step_0").AppendGML(@"
+    importGroup.QueueFindReplace("gml_Object_obj_arcade_mew_Alarm_1", @"instance_deactivate_all(true)", @"instance_deactivate_all(true); instance_activate_object(obj_border)", true);
+    importGroup.QueueFindReplace("gml_Object_obj_arcade_boss_Step_0", @"instance_deactivate_all(true)", @"instance_deactivate_all(true); instance_activate_object(obj_border)", true);
+    importGroup.QueueAppend(Data.Code.ByName("gml_Object_obj_controller_Create_0"), @"layer_force_draw_depth(true, -15998); instance_create_depth(0, 0, -15998, obj_border);");
+    importGroup.QueueAppend(Data.Code.ByName("gml_Object_obj_config_Create_0"), @"position_max += 1;");
+    importGroup.QueueAppend(Data.Code.ByName("gml_Object_obj_config_Step_0"), @"
 if instance_exists(obj_border) && keyboard_multicheck_pressed(0) && position == position_max {
     obj_border.enabled = (!obj_border.enabled);
     obj_border.trigger_change = 1;
     scr_savecontrols();
 }
-    ", Data);
-    Data.Code.ByName("gml_Object_obj_config_Draw_0").AppendGML(@"
+    ");
+    importGroup.QueueAppend(Data.Code.ByName("gml_Object_obj_config_Draw_0"), @"
 draw_set_color(c_white);
 if position == position_max
     draw_set_color(c_yellow); // SOY EL UNDERTALE YELLOW
@@ -963,12 +968,14 @@ if instance_exists(obj_border) && obj_border.enabled
 else
     option = @'OFF';
 draw_text(((__view_get((0 << 0), 0) + 20) + 180), (__view_get((1 << 0), 0) + 220), string_hash_to_newline(option));
-    ", Data);
+    ");
+    importGroup.Import();
 }
 else
 {
     ReplaceCode();
     AddCode();
+    importGroup.Import();
 }
 
 ScriptMessage(@"Succesfully imported borders!
